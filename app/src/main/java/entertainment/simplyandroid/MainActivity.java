@@ -8,12 +8,14 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
 public class MainActivity extends AppCompatActivity implements MyService.Callbacks{
+    private static final String TAG = MainActivity.class.getSimpleName();
     ToggleButton toggleButton;
     ToggleButton tbStartTask;
     TextView tvServiceState;
@@ -48,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements MyService.Callbac
             Toast.makeText(MainActivity.this, "Service Connected", Toast.LENGTH_SHORT).show();
            // MyService.
             // We've binded to LocalService, cast the IBinder and get LocalService instance
+            Log.d(TAG, "onServiceConnected called, ");
+
             MyService.LocalBinder binder = (MyService.LocalBinder) iBinder;
             myService = binder.getServiceInstance(); //Get instance of your service!
             myService.registerClient(MainActivity.this); //Activity register in the service as client for callabcks!
@@ -57,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements MyService.Callbac
 
         @Override
         public void onServiceDisconnected(ComponentName componentName) {
+            Log.d(TAG, "onServiceDiscoonected called, ");
+            tvServiceState.setText("Service disconnected");
             Toast.makeText(MainActivity.this, "Service DisConnected", Toast.LENGTH_SHORT).show();
 
         }
@@ -75,15 +81,16 @@ public class MainActivity extends AppCompatActivity implements MyService.Callbac
                     unbindService(serviceConnection);
                     stopService(serviceIntent);
                     Toast.makeText(MainActivity.this, "Button unchecked", Toast.LENGTH_SHORT).show();
-                    tvServiceState.setText("Service disconnected");
                     tbStartTask.setEnabled(false);
                 }
             }
 
             if(v == tbStartTask){
                 if(tbStartTask.isChecked()){
+                    if (myService != null)
                     myService.startCounter();
                 }else{
+                    if (myService != null)
                     myService.stopCounter();
                 }
             }

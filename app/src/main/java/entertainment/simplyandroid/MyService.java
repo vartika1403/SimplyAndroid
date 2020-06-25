@@ -7,13 +7,14 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 public class MyService extends Service {
-    private final Binder binder = new LocalBinder();
+    private static final String TAG = MyService.class.getSimpleName();
     NotificationManager notificationManager;
     NotificationCompat.Builder mBuilder;
     Callbacks activity;
@@ -30,10 +31,17 @@ public class MyService extends Service {
         }
     };
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Log.d(TAG, "onCreate called, ");
+    }
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return binder;
+        Log.d(TAG, "onBind called, " + intent.getAction());
+        return mBinder;
     }
 
     public class LocalBinder extends Binder {
@@ -49,6 +57,7 @@ public class MyService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d(TAG, "onStartCommand called, " + startId + ", flag, " + flags);
         return START_NOT_STICKY;
     }
 
@@ -65,6 +74,20 @@ public class MyService extends Service {
 
     //callbacks interface for communication with service clients!
     public interface Callbacks{
-        public void updateClient(long data);
+         void updateClient(long data);
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        Log.d(TAG, "onUnbind called, " + intent);
+
+        super.onUnbind(intent);
+        return true;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy called, ");
     }
 }
