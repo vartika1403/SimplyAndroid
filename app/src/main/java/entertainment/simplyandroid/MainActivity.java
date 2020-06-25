@@ -61,8 +61,7 @@ public class MainActivity extends AppCompatActivity implements MyService.Callbac
 
         @Override
         public void onServiceDisconnected(ComponentName componentName) {
-            Log.d(TAG, "onServiceDiscoonected called, ");
-            tvServiceState.setText("Service disconnected");
+            Log.d(TAG, "onServiceDisconncted called, ");
             Toast.makeText(MainActivity.this, "Service DisConnected", Toast.LENGTH_SHORT).show();
 
         }
@@ -80,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements MyService.Callbac
                 }else{
                     unbindService(serviceConnection);
                     stopService(serviceIntent);
+                    tvServiceState.setText("Service disconnected");
                     Toast.makeText(MainActivity.this, "Button unchecked", Toast.LENGTH_SHORT).show();
                     tbStartTask.setEnabled(false);
                 }
