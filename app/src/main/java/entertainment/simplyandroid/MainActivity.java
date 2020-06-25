@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -73,8 +74,12 @@ public class MainActivity extends AppCompatActivity implements MyService.Callbac
         public void onClick(View v) {
             if(v == toggleButton){
                 if(toggleButton.isChecked()){
-                    startService(serviceIntent); //Starting the service
-                    bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE); //Binding to the service!
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        startForegroundService(serviceIntent); //Starting the service
+                    } else {
+                        startService(serviceIntent);
+                    }
+                     bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE); //Binding to the service!
                     Toast.makeText(MainActivity.this, "Button checked", Toast.LENGTH_SHORT).show();
                 }else{
                     unbindService(serviceConnection);
