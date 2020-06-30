@@ -17,6 +17,7 @@ public class CustumView extends View {
     private static final String TAG = CustumView.class.getSimpleName();
     private Rect mRectSquare;
     private Paint mPaintSquare;
+    private Paint mPaintCircle;
     private int mSquareColor;
     private int mSquareSize;
 
@@ -44,6 +45,7 @@ public class CustumView extends View {
     private void init(@Nullable AttributeSet set) {
         mRectSquare = new Rect();
         mPaintSquare = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPaintCircle = new Paint(Paint.ANTI_ALIAS_FLAG);
 
         if (set == null) {
             return;
@@ -54,6 +56,7 @@ public class CustumView extends View {
         mSquareSize = typedArray.getDimensionPixelSize(R.styleable.CustumView_square_size, SQUARE_SIZE);
 
         mPaintSquare.setColor(mSquareColor);
+        mPaintCircle.setColor(mSquareColor);
         typedArray.recycle();
     }
 
@@ -65,7 +68,16 @@ public class CustumView extends View {
         mRectSquare.right = mRectSquare.left + mSquareSize;
         mRectSquare.bottom = mRectSquare.top + mSquareSize;
 
+        // draw a rectangle
         canvas.drawRect(mRectSquare, mPaintSquare);
+
+        //draw a circle
+        float cx, cy;
+        float radius = 150f;
+        cx = getWidth() - radius - 50f;
+        cy = mRectSquare.top + (mRectSquare.height()/2);
+        canvas.drawCircle(cx, cy, radius, mPaintCircle);
+
     }
 
     public void swapColor() {
