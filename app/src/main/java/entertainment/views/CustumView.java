@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -20,6 +22,10 @@ public class CustumView extends View {
     private Paint mPaintCircle;
     private int mSquareColor;
     private int mSquareSize;
+    private float mCircleX;
+    private float mCircleY;
+    float radius = 150f;
+
 
     private static final int SQUARE_SIZE = 200;
     public CustumView(Context context) {
@@ -72,11 +78,43 @@ public class CustumView extends View {
         canvas.drawRect(mRectSquare, mPaintSquare);
 
         //draw a circle
-        float cx, cy;
-        float radius = 150f;
-        cx = getWidth() - radius - 50f;
-        cy = mRectSquare.top + (mRectSquare.height()/2);
-        canvas.drawCircle(cx, cy, radius, mPaintCircle);
+        if (mCircleY == 0f || mCircleX == 0f) {
+            mCircleX = getWidth()/2;
+            mCircleY = getHeight()/2;
+        }
+        canvas.drawCircle(mCircleX, mCircleY, radius, mPaintCircle);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+        boolean value = super.onTouchEvent(motionEvent);
+
+        Log.d(TAG, "onTouchEvent value, " + value);
+        switch (motionEvent.getAction()) {
+            case MotionEvent.ACTION_DOWN: {
+                Log.d(TAG, "onTouchEvent action down");
+
+                return true;
+            }
+            case MotionEvent.ACTION_MOVE: {
+                Log.d(TAG, "onTouchEvent action move");
+
+                float x = motionEvent.getX();
+                float y = motionEvent.getY();
+                double dx = Math.pow(x-mCircleX, 2);
+                double dy = Math.pow(y-mCircleY, 2);
+                Log.d(TAG, "onTouchEvent action move 1 x, " + x + "y " + y + "dx, " + dx + " dy, " + dy);
+
+                if (dx + dy < Math.pow(mCircleX, 2)) {
+                    Log.d(TAG, "onTouchEvent action move 2 x, " + x + "y " + y + "dx, " + dx + " dy, " + dy);
+                    mCircleX = x;
+                    mCircleY = y;
+                    postInvalidate();
+                    return true;
+                }
+            }
+        }
+        return value;
 
     }
 
