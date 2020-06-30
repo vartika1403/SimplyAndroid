@@ -93,6 +93,14 @@ public class CustumView extends View {
         switch (motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN: {
                 Log.d(TAG, "onTouchEvent action down");
+                float x = motionEvent.getX();
+                float y = motionEvent.getY();
+                if (mRectSquare.left < x && mRectSquare.right > x) {
+                    if (mRectSquare.top < y && mRectSquare.bottom > y) {
+                        radius += 10f;
+                        postInvalidate();
+                    }
+                }
 
                 return true;
             }
