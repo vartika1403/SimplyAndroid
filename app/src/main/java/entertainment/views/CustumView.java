@@ -15,7 +15,7 @@ public class CustumView extends View {
     private Rect mRectSquare;
     private Paint mPaintSquare;
 
-    private static final int SQUARE_SIZE = 100;
+    private static final int SQUARE_SIZE = 200;
     public CustumView(Context context) {
         super(context);
         init(null);
@@ -39,17 +39,22 @@ public class CustumView extends View {
     private void init(@Nullable AttributeSet set) {
         mRectSquare = new Rect();
         mPaintSquare = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPaintSquare.setColor(Color.GREEN);
     }
 
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        mRectSquare.left = 10;
-        mRectSquare.top = 10;
-        mRectSquare.right = 10 + SQUARE_SIZE;
-        mRectSquare.bottom = 10 + SQUARE_SIZE;
+        mRectSquare.left = 50;
+        mRectSquare.top = 50;
+        mRectSquare.right = mRectSquare.left + SQUARE_SIZE;
+        mRectSquare.bottom = mRectSquare.top + SQUARE_SIZE;
 
-        mPaintSquare.setColor(Color.GREEN);
         canvas.drawRect(mRectSquare, mPaintSquare);
+    }
+
+    public void swapColor() {
+        mPaintSquare.setColor(mPaintSquare.getColor() == Color.GREEN ? Color.RED : Color.GREEN);
+        postInvalidate();
     }
 }
