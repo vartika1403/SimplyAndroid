@@ -18,11 +18,14 @@ import android.widget.ToggleButton;
 public class MainActivity extends AppCompatActivity implements MyService.Callbacks{
     private static final String TAG = MainActivity.class.getSimpleName();
     ToggleButton toggleButton;
+    ToggleButton toggleIntentService;
     ToggleButton tbStartTask;
     TextView tvServiceState;
     TextView tvServiceOutput;
     Intent serviceIntent;
+    Intent intentServiceIntent;
     MyService myService;
+    MyIntentService myIntentService;
     int seconds;
     int minutes;
     int hours;
@@ -31,8 +34,10 @@ public class MainActivity extends AppCompatActivity implements MyService.Callbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        serviceIntent = new Intent(MainActivity.this, MyIntentService.class);
-        serviceIntent.putExtra("message", "Hi i am from MyIntentService");
+        serviceIntent = new Intent(MainActivity.this, MyService.class);
+        serviceIntent.putExtra("message", "Hi i am MyService");
+        intentServiceIntent = new Intent(this, MyIntentService.class);
+        intentServiceIntent.putExtra("message", "Hi i am MyIntentService");
         setViewsWidgets();
     }
 
@@ -43,7 +48,8 @@ public class MainActivity extends AppCompatActivity implements MyService.Callbac
         tbStartTask.setOnClickListener(btListener);
         tvServiceState = (TextView)findViewById(R.id.tvServiceState);
         tvServiceOutput = (TextView)findViewById(R.id.tvServiceOutput);
-
+        toggleIntentService = (ToggleButton)findViewById(R.id.tbStartIntentService);
+        toggleIntentService.setOnClickListener(btListener);
     }
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
@@ -75,12 +81,12 @@ public class MainActivity extends AppCompatActivity implements MyService.Callbac
         public void onClick(View v) {
             if(v == toggleButton){
                 if(toggleButton.isChecked()){
-                    /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         startForegroundService(serviceIntent); //Starting the service
-                    } else {*/
+                    } else {
                         startService(serviceIntent);
-                    //}
-                    // bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE); //Binding to the service!
+                    }
+                     bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE); //Binding to the service!
                     Toast.makeText(MainActivity.this, "Button checked", Toast.LENGTH_SHORT).show();
                 }else{
 //                    unbindService(serviceConnection);
@@ -88,6 +94,18 @@ public class MainActivity extends AppCompatActivity implements MyService.Callbac
                     tvServiceState.setText("Service disconnected");
                     Toast.makeText(MainActivity.this, "Button unchecked", Toast.LENGTH_SHORT).show();
                     tbStartTask.setEnabled(false);
+                }
+            }
+
+            if (v == toggleIntentService) {
+                if (toggleIntentService.isChecked()) {
+                    startService(intentServiceIntent);
+                    Toast.makeText(MainActivity.this,
+                            "Intent serviceButton checked", Toast.LENGTH_SHORT).show();
+                    bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE); //Binding to the service!
+                } else {
+                    stopService(intentServiceIntent);
+                    Toast.makeText(MainActivity.this, "Intent serviceButton unchecked", Toast.LENGTH_SHORT).show();
                 }
             }
 

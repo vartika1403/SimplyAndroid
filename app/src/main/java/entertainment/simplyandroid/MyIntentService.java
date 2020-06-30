@@ -3,7 +3,9 @@ package entertainment.simplyandroid;
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -11,6 +13,7 @@ import androidx.annotation.Nullable;
 public class MyIntentService extends IntentService {
     private static final String TAG = MyIntentService.class.getSimpleName();
     private final IBinder mBinder = new MyIntentService.LocalBinder();
+    private Handler handler;
 
     public MyIntentService() {
         super("MyIntentService");
@@ -25,7 +28,8 @@ public class MyIntentService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d(TAG, "onCreate called,");
+        Log.d(TAG, "onCreate called," + Thread.currentThread());
+
     }
 
     @Nullable
@@ -46,6 +50,13 @@ public class MyIntentService extends IntentService {
     @Override
     public void onHandleIntent(@Nullable Intent intent) {
         Log.d(TAG, "onHandleIntent called, " + intent.getAction());
+        handler = new Handler() {
+            @Override
+            public void handleMessage(Message message) {
+                super.handleMessage(message);
+                Log.d(TAG, "onCreate Message called," + message.arg1);
+            }
+        };
       //  super.onHandleIntent(intent);
 
     }
@@ -53,6 +64,7 @@ public class MyIntentService extends IntentService {
     @Override
     public void onDestroy() {
         super.onDestroy();
+       // handler.removeMessages();
         Log.d(TAG, "onDestroy called, ");
     }
 }
