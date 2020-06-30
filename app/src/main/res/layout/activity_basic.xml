@@ -10,6 +10,8 @@
         android:id="@+id/custumView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:square_color="@color/squareColor"
+        app:square_size="200dp"
         />
 
 
