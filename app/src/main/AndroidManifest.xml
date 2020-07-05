@@ -17,16 +17,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="entertainment.views.BasicActivity">
+        <activity android:name="entertainment.simpleDagger.NewActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name="entertainment.views.BasicActivity">
 
         </activity>
+        <activity android:name=".MainActivity"></activity>
 
         <service android:name=".MyService" />
         <service android:name=".MyIntentService" />
