@@ -3,6 +3,7 @@ package entertainment.simpleDagger;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import javax.inject.Inject;
 
@@ -23,8 +24,8 @@ public class NewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new);
 
-        CarComponent carComponent = DaggerCarComponent.builder()
-                .petrolEngineModule(new PetrolEngineModule(100)).build();
+        Log.d(TAG, "onCreate: ");
+        CarComponent carComponent = DaggerCarComponent.builder().build();
         carComponent.inject(this);
         car.drive();
     }

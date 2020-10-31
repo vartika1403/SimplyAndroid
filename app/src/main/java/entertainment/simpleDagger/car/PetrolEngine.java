@@ -16,9 +16,6 @@ public class PetrolEngine implements Engine {
 
     }
 
-    public PetrolEngine(int horsePower) {
-      this.horsePower = horsePower;
-    }
 
     @Override
     public void start() {

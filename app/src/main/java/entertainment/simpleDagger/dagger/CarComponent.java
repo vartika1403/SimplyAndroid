@@ -1,5 +1,7 @@
 package entertainment.simpleDagger.dagger;
 
+import dagger.Binds;
+import dagger.BindsInstance;
 import dagger.Component;
 import entertainment.simpleDagger.car.Car;
 import entertainment.simpleDagger.NewActivity;

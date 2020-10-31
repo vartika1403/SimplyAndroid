@@ -8,6 +8,14 @@ import entertainment.simpleDagger.car.PetrolEngine;
 
 @Module
 public  class PetrolEngineModule {
+    public int getHorsePower() {
+        return horsePower;
+    }
+
+    public void setHorsePower(int horsePower) {
+        this.horsePower = horsePower;
+    }
+
     private int horsePower;
 
     public PetrolEngineModule(int horsePower) {
@@ -17,6 +25,6 @@ public  class PetrolEngineModule {
 
     @Provides
     Engine providesEngine(PetrolEngine petrolEngine) {
-        return new PetrolEngine(horsePower);
+        return new PetrolEngine();
     }
 }

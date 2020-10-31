@@ -17,17 +17,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="entertainment.simpleDagger.NewActivity">
+        <activity android:name="entertainment.simplykotlin.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="entertainment.views.BasicActivity">
-
+        <activity android:name="entertainment.networkcall.NetworkActivity" />
+        <activity android:name="entertainment.simpleDagger.NewActivity">
         </activity>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name="entertainment.views.BasicActivity" />
+        <activity android:name=".MainActivity" />
 
         <service android:name=".MyService" />
         <service android:name=".MyIntentService" />
