@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val viewModel:QuoteViewModel by lazy {
-        ViewModelProvider(this)[QuoteViewModel::class.java]
+        ViewModelProvider(this,ViewModelFactory(ApiHelper(RetrofitBuilder.apiService)))[QuoteViewModel::class.java]
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     private fun initView(){
         counter_plus.setOnClickListener(::incrementCounter)
         counter_minus.setOnClickListener(::decrementCounter)
+
     }
 
     private fun incrementCounter(view: View) {
@@ -43,7 +44,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initCountObsever() {
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
            viewModel.countState.collect { value ->
                 text_counter.text = "$value"
             }
