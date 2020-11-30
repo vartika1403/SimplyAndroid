@@ -23,9 +23,6 @@ class QuoteViewModel(private val mainRepository: MainRepository) : ViewModel() {
     fun decreamentState() {
         _countState.value--
     }
-    init {
-       // viewModelScope.la
-    }
 
     fun getUsers() = liveData(Dispatchers.IO) {
         emit(Resource.loading(data = null))
