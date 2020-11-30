@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.row_item.view.*
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder =
-        DataViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.row_item, parent, false))
+            DataViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.row_item, parent, false))
 
 
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
